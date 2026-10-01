@@ -2294,7 +2294,12 @@ function completeCP(id) {
 
   stopSpeech();
 
-  stopRecognition(true);
+  // Misi 4 sudah menghentikan recognition melalui advance().
+  // Jangan minta iOS/WebKit menutup sesi yang sama sekali lagi
+  // semasa transition Misi 4 → Misi 5.
+  if (id !== 4) {
+    stopRecognition(true);
+  }
 
   if (
     !game.completedCheckpoints.includes(
