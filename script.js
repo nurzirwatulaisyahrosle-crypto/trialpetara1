@@ -1818,29 +1818,28 @@ if (recognition) {
   // END
   // ===================================================
 
- r.onend = () => {
+r.onend = () => {
 
+  // Bersihkan sesi rakaman yang baru tamat dahulu.
+  if (recognition === r) {
+    recognition = null;
+  }
 
+  isRecording = false;
+  setRecordButton(false);
 
-    if (
-      thisSession !== recognitionSession
-    ) {
-      return;
-    }
+  setMicIndicator(
+    false,
+    "🎤 Mikrofon tidak aktif"
+  );
 
-
-    if (recognition === r) {
-      recognition = null;
-    }
-
-
-    isRecording = false;
-    setRecordButton(false);
-
-    setMicIndicator(
-      false,
-      "🎤 Mikrofon tidak aktif"
-    );
+  // Selepas cleanup, barulah semak sama ada
+  // ini masih sesi yang sedang digunakan.
+  if (
+    thisSession !== recognitionSession
+  ) {
+    return;
+  }
 
 
     const heard =
