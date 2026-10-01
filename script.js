@@ -1435,40 +1435,7 @@ recordBtn.onclick = () => {
   // MISI 5 SAHAJA — IOS / IPADOS
   // ===================================================
 
-  if (isCP5) {
-
-    // Pastikan audio yang sedang bermain betul-betul berhenti
-    stopSpeech();
-
-    // Jika ada recognition lama yang masih tertinggal,
-    // tutup dahulu sebelum cipta recognition baru.
-    if (recognition) {
-
-      try {
-        recognition.abort();
-      } catch (e) {}
-
-      recognition = null;
-      isRecording = false;
-
-    }
-
-   // Reset transcript sesi sebelumnya
-finalTranscript = "";
-interimTranscript = "";
-
-// Pulangkan audio session kepada keadaan playback dahulu.
-setAudioPlaybackMode();
-
-// Mulakan recognition baru untuk Misi 5.
-startRecognition(
-  d,
-  false,
-  true
-);
-
-return;
-  }
+ 
 
 
   // ===================================================
