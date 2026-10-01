@@ -886,6 +886,18 @@ function setAudioPlaybackMode() {
 
   }
 }
+function setAudioRecordingMode() {
+  try {
+    if (
+      navigator.audioSession &&
+      "type" in navigator.audioSession
+    ) {
+      navigator.audioSession.type = "play-and-record";
+    }
+  } catch (e) {
+    console.log("Audio recording mode tidak tersedia.");
+  }
+}
 
 
 
@@ -1573,9 +1585,10 @@ if (recognition || recognitionStarting) {
 
 
   stopSpeech();
-
+  setAudioRecordingMode();
 
   // Simpan soalan semasa
+
   currentVoiceData = d;
   currentVoiceIsCP4 = isCP4;
   currentVoiceIsCP5 = isCP5;
