@@ -1419,34 +1419,18 @@ function renderVoice(
 
 recordBtn.onclick = () => {
 
-  // ===================================================
-  // JIKA SEDANG MERAKAM
-  // ===================================================
+  // Misi 3, 4 dan 5 menggunakan
+  // sistem rakaman yang SAMA.
 
   if (isRecording) {
-
     stopRecognition(false);
     return;
-
   }
-
-
-  // ===================================================
-  // MISI 5 SAHAJA — IOS / IPADOS
-  // ===================================================
-
- 
-
-
-  // ===================================================
-  // MISI 3 & MISI 4
-  // KEKALKAN CARA YANG SUDAH BERFUNGSI
-  // ===================================================
 
   startRecognition(
     d,
     isCP4,
-    false
+    isCP5
   );
 
 };
@@ -1592,15 +1576,14 @@ function startRecognition(
   }
 
 
-  // Pastikan tiada recognition lama tertinggal
-  if (recognition) {
-
-    try {
-      recognition.abort();
-    } catch (e) {}
-
-    recognition = null;
-  }
+ // Jangan paksa tamatkan sesi SpeechRecognition lama.
+// Safari/iOS perlu membenarkan sesi lama selesai melalui onend.
+if (recognition) {
+  setStatus(
+    "⏳ Mikrofon sedang menamatkan sesi sebelumnya. Cuba sekali lagi."
+  );
+  return;
+}
 
 
   stopSpeech();
@@ -1852,8 +1835,7 @@ function startRecognition(
 
  r.onend = () => {
 
-    // Mic sudah tamat → pulangkan audio iPhone/iPad ke mod media
-    setAudioPlaybackMode();
+
 
     if (
       thisSession !== recognitionSession
