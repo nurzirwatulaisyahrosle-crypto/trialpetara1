@@ -1564,7 +1564,7 @@ function startRecognition(
 
  // Jangan paksa tamatkan sesi SpeechRecognition lama.
 // Safari/iOS perlu membenarkan sesi lama selesai melalui onend.
-if (recognition) {
+if (recognition || recognitionStarting) {
   setStatus(
     "⏳ Mikrofon sedang menamatkan sesi sebelumnya. Cuba sekali lagi."
   );
@@ -1595,10 +1595,11 @@ if (recognition) {
 
 
   // Recognition BARU setiap kali tekan MULA RAKAM
-  const r =
-    new SR();
+const r =
+  new SR();
 
-  recognition = r;
+recognition = r;
+recognitionStarting = true;
 
 
   // Sama seperti UJI MIKROFON
@@ -1633,7 +1634,7 @@ if (recognition) {
     ) {
       return;
     }
-
+recognitionStarting = false;
     isRecording = true;
 
     setRecordButton(true);
@@ -1826,6 +1827,7 @@ r.onend = () => {
     recognition = null;
   }
 
+  recognitionStarting = false;
   isRecording = false;
   setRecordButton(false);
 
@@ -1891,11 +1893,9 @@ try {
 
 } catch (err) {
 
-
-
-    recognition = null;
-    isRecording = false;
-
+  recognition = null;
+  recognitionStarting = false;
+  isRecording = false;
     setRecordButton(false);
 
     setMicIndicator(
@@ -1925,11 +1925,12 @@ function stopRecognition(silent = false) {
   // TIADA RECOGNITION YANG SEDANG AKTIF
   // ===================================================
 
-  if (!r) {
+if (!r) {
 
-    isRecording = false;
+  recognitionStarting = false;
+  isRecording = false;
 
-    setRecordButton(false);
+  setRecordButton(false);
 
     if (silent) {
       finalTranscript = "";
@@ -1966,12 +1967,12 @@ function stopRecognition(silent = false) {
 
     } catch (e) {
 
-      if (recognition === r) {
-        recognition = null;
-      }
+  if (recognition === r) {
+  recognition = null;
+}
 
-      isRecording = false;
-
+recognitionStarting = false;
+isRecording = false;
       finalTranscript = "";
       interimTranscript = "";
 
@@ -2006,15 +2007,16 @@ function stopRecognition(silent = false) {
 
     r.stop();
 
-  } catch (e) {
+} catch (e) {
 
-    if (recognition === r) {
-      recognition = null;
-    }
+  if (recognition === r) {
+    recognition = null;
+  }
 
-    isRecording = false;
+  recognitionStarting = false;
+  isRecording = false;
 
-    setRecordButton(false);
+  setRecordButton(false);
 
     const heard =
       (
