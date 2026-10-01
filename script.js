@@ -1056,22 +1056,7 @@ function cp1(d, total) {
 
 listenBtn.onclick = () => {
   speak(d.audio);
-
-recordBtn.onclick = () => {
-
-  if (isRecording) {
-    stopRecognition(false);
-  }
-  else {
-    startRecognition(
-      d,
-      isCP4,
-      isCP5
-    );
-  }
 };
-
-}
   document
     .querySelectorAll(".picture-option")
     .forEach(button => {
