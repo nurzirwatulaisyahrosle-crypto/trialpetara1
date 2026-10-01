@@ -544,6 +544,7 @@ document
 let activityIndex = 0;
 
 let recognition = null;
+let recognitionStarting = false;
 let isRecording = false;
 
 let finalTranscript = "";
