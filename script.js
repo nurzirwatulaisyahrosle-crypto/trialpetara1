@@ -1906,7 +1906,7 @@ try {
 
 } catch (err) {
 
-  setAudioPlaybackMode();
+
 
     recognition = null;
     isRecording = false;
