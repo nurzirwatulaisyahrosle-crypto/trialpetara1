@@ -1585,7 +1585,7 @@ if (recognition || recognitionStarting) {
 
 
   stopSpeech();
-  setAudioRecordingMode();
+  
 
   // Simpan soalan semasa
 
